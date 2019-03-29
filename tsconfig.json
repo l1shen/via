@@ -16,10 +16,12 @@
   },
   "compileOnSave": false,
   "includes": [
-    "src/**/*"
+    "app/**/*",
+    "configs/**/*"
   ],
   "exclude": [
     "node_modules",
-    "dist"
+    "dist",
+    "test"
   ]
 }
