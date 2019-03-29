@@ -3,21 +3,23 @@ node_js:
 - 10.15.0
 cache:
   directories:
-  - node_modules
+    - node_modules
 notifications:
   email:
     on_success: never
 install:
-  - yarn
+- yarn
 script:
-  - yarn lint
-  - yarn build
+- yarn lint
+- yarn build
 deploy:
   provider: releases
-  api_key:
-    secure: W1I6K3XbFMo91ab5VNrw7kent1xHhBxaxMZYw8JfJnt+B/c1sP7EFnJhH2N2Z7h0KHbE8MbP2lWcFShfjwWEDjJPBAmJqXKBuzLgcSVKd39qyK9oHe4RVGX3YbMz00cH8QkecPRinzfeMHoQ/4kqwdzG+3fPr1WS0NDlY8Ow4+6gxKR2ECstice1G50mE9t60f4U9QzTFIj6BiKHnPBnOfnixu9eOluuvtYKCjQzRftusxW/rIAQmOAUrBppaBou6K/nduuabeEX9TATVB6TfGNxcyMxQvnhKQBf3XllyGAbZ+2n405GTcXUxFNg30RR8vtCR/2r1Q8AjNpe+hDng1iYZUQ/9/58qG2r/zVDKFzc24pXz9c5i07/8331F07zqDtH1vqwxOa1xb8pC8QT04sClvtQAS1YhGEtpO8kDvp8Kt/fTF5Py1i9nPhKU9LK3+ss/4U8+HKyOC3Y8rvX7aJLN0uZdsJ6TBxDrULZWHWqQD8yj2mqCSF8jF2Io39lTESIDvs6PxRd9TQwt5FYrs53xx4x+bnmdTNCf0X+SgEIxy3ARxHOmEU+fxhYlftjz6E3OBWdan6aXp0mpcbJmrzrUPOljdvr02Ih6okwv4LZQdEdf+MJ7REp3p7kLBCw63GITSY9p8Q6zX113jIaYvPNq8Shw0WS4LKh4w5skHY=
-  file: dist/index.js
   skip_cleanup: true
+  api_key:
+    secure: R3RChxrHM5uBqBZulyhq/XvBh0P6DHZR1hB9cM8whGv2Q9sSkd0ksFY2mspEKOuMuDkkPnsh0xJ6JmRBlWjetPDcjvDwRwVWl6VQ07K72in4DGwckYyOVP1c6r/w852F6wBB1wu2znnjfxILqKgHIBZGix6DF1CJmeOsiCz42E4940wft4GQUlr3kvGV7WVpzxWaebOYdpHNuLuTJtnF7pSnyaddC12ShbNYaO9jj8sDVBbCt2PUs+XejBoYQP/ErPu4Lj64o5rA1LkU2iVfkTQdkvQxdl+wkjeARdebmORMK81ds31o2fQZTJiImdlzylqjyDvUhDMR2dpR+jEuTd0Ih2XYirK7d+RZxu8OIS/Iq3+ZhyXK83DGFLH7vfIUmIHpHdiGDeI1yKbyVLjogvFxT5VOuv9oJHSsgiXndSQmqoJ2R2i1CDg+JnC993FgDwapQKWSXlnsTDNsYvZBaLIQKmy5h+VMXgPV5No2pAJ7FwclW6z0v0vr+jECAOF6jduZmYTpqykIESIUdgdFXB0FzagB2JAiI9nNKuQtXwILG3CH0ANTPwRLROqnSYaH2b0zn0CreewhobquFxrQwbrnMXyESaaUoLDoZZfPxMKWpGmuSHLk5Xqt5IzTZ4Wvbn12EImYzScZ7Uh7ft4tR9Tx/TLRu2/prW1i5Y568VU=
+  file:
+    - dist/index.js
+    - dist/variables.env
   on:
     repo: HaiFengFE/via
     tags: true
