@@ -1,6 +1,6 @@
 import { MinLength, IsNotEmpty } from 'class-validator'
 import {
-  Entity, BaseEntity, ObjectIdColumn, CreateDateColumn, UpdateDateColumn,
+  Entity, BaseEntity, ObjectIdColumn, CreateDateColumn, UpdateDateColumn, Column, Index,
 } from 'typeorm'
 
 /**
@@ -9,18 +9,24 @@ import {
  * How to auto validaing? see: https://github.com/typestack/routing-controllers#auto-validating-action-params
  */
 
-@Entity('sessions')
-export class Session extends BaseEntity {
+@Entity('users')
+export class User extends BaseEntity {
   
   @ObjectIdColumn()
   id: string
-  
+
+  @Column()
   @MinLength(4, { message: 'username too short' })
   @IsNotEmpty({ message: 'must include username' })
+  @Index({ unique: true })
   username: string
-  
+
+  @Column()
   @MinLength(10)
   token: string
+
+  @Column()
+  password: string
   
   @CreateDateColumn()
   created_at: Date

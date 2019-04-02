@@ -1,1 +1,2 @@
-export * from './sessions.controller'
+export * from './account.controller'
+export * from './projects.controller'

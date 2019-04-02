@@ -7,9 +7,9 @@ export default {
   mongo: {
     MONGODB_HOST: '127.0.0.1',
     MONGODB_PORT: 27017,
-    MONGODB_USER: '',
-    MONGODB_PASS: '',
-    MONGODB_DATABASE: '',
+    MONGODB_USER: 'admin',
+    MONGODB_PASS: 'admin',
+    MONGODB_DATABASE: 'koa_ex_db',
   },
   
 }
