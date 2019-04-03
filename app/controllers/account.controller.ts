@@ -6,7 +6,8 @@ import { Request } from 'koa'
 import { sign } from 'jsonwebtoken'
 import { AccountService, UserService } from '../services'
 import { User } from '../entities'
-import { Tips, Configs } from '../constants'
+import { Tips } from '../constants'
+import { Configs } from  '../../configs/customs'
 
 
 
@@ -21,13 +22,13 @@ export class AccountController {
 
   @Post('/sign_in')
   async signIn(
-    @BodyParam('user_name') userName: string,
-    @BodyParam('password') password: string,
+    @BodyParam('username', { required: true }) username: string,
+    @BodyParam('password', { required: true }) password: string,
     @Req() request: Request,
   ): Promise<any> {
+    const result = await this.accountService.signIn(username, password)
+    if (!result) throw new BadRequestError(Tips.USER_NOT_FOUND)
     try {
-      const result = await this.accountService.signIn(userName, password)
-      if (!result) return Tips.USER_NOT_FOUND
       const token = await sign(
         { username: result.username, user_id: result.id },
         Configs.JWT_KEY,
@@ -42,21 +43,17 @@ export class AccountController {
   }
 
   @Post('/sign_up')
-  async signUp(@BodyParam('user_name') userName: string, @BodyParam('password') password: string): Promise<any> {
+  async signUp(
+    @BodyParam('username') userName: string,
+    @BodyParam('password') password: string,
+  ): Promise<any> {
+    const user = await this.userService.findOneByName(userName)
+    if (user) throw new BadRequestError(Tips.USER_NAME_DUPLICATE)
     try {
-      const user = await this.userService.findOneByName(userName)
-      if (user) return Tips.USER_NAME_DUPLICATE
-      const newUser = await this.accountService.signUp(userName, password)
-      return { user: { userName: newUser.username} }
+      const created = await this.accountService.signUp(userName, password)
+      return { user: created }
     } catch {
      throw new UnauthorizedError()
     }
   }
-
-  // If your need to use database, please set useMongoDB(in configs/customs.ts) to true.
-  // @Post('/sessions')
-  // async create(@Body() session: Session): Promise<any> {
-  //   const created = await this.sessionsService.create(session)
-  //   return { created }
-  // }
 }

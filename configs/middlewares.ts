@@ -1,7 +1,7 @@
-import * as Koa from 'koa'
-import * as kcors from '@koa/cors'
-import * as logger from 'koa-logger'
-import * as bodyParser from 'koa-bodyparser'
+import Koa from 'koa'
+import kcors from '@koa/cors'
+import logger from 'koa-logger'
+import bodyParser from 'koa-bodyparser'
 import { Environment } from './environments'
 
 

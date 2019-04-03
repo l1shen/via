@@ -1,4 +1,4 @@
-const pick = require('lodash/pick')
-const isEmpty = require('lodash/isEmpty')
+import pick from 'lodash/pick'
+import isEmpty from 'lodash/isEmpty'
 
 export { pick, isEmpty }

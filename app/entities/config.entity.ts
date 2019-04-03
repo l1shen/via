@@ -2,6 +2,7 @@ import { MinLength, IsNotEmpty } from 'class-validator'
 import {
   Entity, BaseEntity, ObjectIdColumn, CreateDateColumn, UpdateDateColumn, Column, Index,
 } from 'typeorm'
+import { Binary } from 'mongodb'
 
 @Entity('configs')
 export class Config extends BaseEntity {
@@ -25,13 +26,13 @@ export class Config extends BaseEntity {
   url: string
 
   @Column()
-  content: Object
+  content: string
 
   @Column()
   tags: Array<string>
 
   @Column()
-  histories: Array<Object>
+  histories: Array<string>
 
   @Column()
   version: Date

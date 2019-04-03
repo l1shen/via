@@ -1,6 +1,6 @@
 import {
   Body, Get, JsonController, Post, QueryParam, UseInterceptor,
-  BodyParam, Req, Authorized, Param, HttpError, CurrentUser,
+  BodyParam, Req, Authorized, Param, HttpError, CurrentUser, Action,
 } from 'routing-controllers'
 import {ProjectService, UserService} from '../services'
 import { Project, User } from '../entities'
@@ -16,6 +16,14 @@ export class ProjectsController {
   ) {}
 
   @Get('/')
+  @UseInterceptor(async (action: Action, content: any) => {
+    try {
+      console.log(action)
+      return content
+    } catch (e) {
+      console.log(e)
+    }
+  })
   async index(): Promise<any> {
     const projects = await this.projectService.list()
     return { projects }
@@ -24,6 +32,7 @@ export class ProjectsController {
   @Get('/:name')
   async show(@Param('name') name: string): Promise<any> {
     const project = await this.projectService.findOneByName(name)
+    if (isEmpty(project)) return Tips.PROJECT_NOT_FOUND
     if (isEmpty(project.users)) return { project }
     const users = await this.userService.findListByIds(project.users)
     const projectWithUsers = Object.assign({}, project, { users })

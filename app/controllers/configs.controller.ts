@@ -1,11 +1,12 @@
 import {
   Body, Get, JsonController, Post, QueryParam, UseInterceptor,
-  BodyParam, Req, Authorized, Param, HttpError, CurrentUser,
+  BodyParam, Req, Authorized, Param, HttpError, CurrentUser, BadRequestError,
 } from 'routing-controllers'
 import { ConfigService, HistoryService, ProjectService } from '../services'
 import { Config, User } from '../entities'
 import { pick } from '../helpers'
 import { Tips } from '../constants'
+import { Binary } from 'mongodb'
 
 @Authorized()
 @JsonController('/projects/:project_name/configs')
@@ -31,14 +32,15 @@ export class ConfigsController {
 
   @Post('/')
   async create(@Body() body: Config, @Param('project_name') projectName: string): Promise<any> {
+    const config = pick(body, ['name', 'description', 'url', 'content', 'tags'])
+    config['project_name'] = projectName
+    config.content = JSON.stringify(config.content)
     try {
-      const config = pick(body, ['name', 'description', 'url', 'content', 'tags'])
-      config['project_name'] = projectName
       const created = await this.configService.create(config)
       return { config: created }
     } catch (e) {
       console.log(e)
-      throw new HttpError(400, Tips.CONFIG_CREATED_ERROR)
+      throw new BadRequestError(Tips.CONFIG_CREATED_ERROR)
     }
   }
 
@@ -51,12 +53,17 @@ export class ConfigsController {
   @Post('/:id/publish')
   async publish(@Param('id') id: string, @CurrentUser({ required: true }) user: User): Promise<any> {
     const config = await this.configService.findOneById(id)
-    const created = await this.historyService.create({
-      config_id: config.id,
-      user_id: user.id,
-      content: config.content,
-    })
-    const updated = await this.configService.updateLastPublish(config)
-    return { config: updated }
+    try {
+      const created = await this.historyService.create({
+        config_id: config.id,
+        user_id: user.id,
+        content: config.content,
+      })
+      const updated = await this.configService.updateLastPublish(config)
+      return { config: updated }
+    } catch (e) {
+      console.log(e)
+      throw new BadRequestError()
+    }
   }
 }

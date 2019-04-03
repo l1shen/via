@@ -10,11 +10,11 @@ export class HistoryService {
     this.repository = getMongoRepository(History)
   }
 
-  async list(configId: string): Promise<any> {
+  async list(configId: string): Promise<Array<History | null>> {
     return await this.repository.find({ config_id: configId })
   }
 
-  async create(payload: any): Promise<any> {
+  async create(payload: any): Promise<History> {
     return await this.repository.save(payload)
   }
 }
