@@ -16,14 +16,6 @@ export class ProjectsController {
   ) {}
 
   @Get('/')
-  @UseInterceptor(async (action: Action, content: any) => {
-    try {
-      console.log(action)
-      return content
-    } catch (e) {
-      console.log(e)
-    }
-  })
   async index(): Promise<any> {
     const projects = await this.projectService.list()
     return { projects }
