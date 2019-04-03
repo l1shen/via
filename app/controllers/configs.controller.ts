@@ -50,8 +50,8 @@ export class ConfigsController {
     return { histories }
   }
 
-  @Post('/:id/publish')
-  async publish(@Param('id') id: string, @CurrentUser({ required: true }) user: User): Promise<any> {
+  @Post('/:id/deployment')
+  async deployment(@Param('id') id: string, @CurrentUser({ required: true }) user: User): Promise<any> {
     const config = await this.configService.findOneById(id)
     try {
       const created = await this.historyService.create({
@@ -60,7 +60,7 @@ export class ConfigsController {
         content: config.content,
       })
       const updated = await this.configService.updateLastPublish(config)
-      return { config: updated }
+      return { config: updated, history: created }
     } catch (e) {
       console.log(e)
       throw new BadRequestError()
