@@ -5,7 +5,7 @@ import { Configs } from '../constants'
 
 export const AuthorizationChecker = async (action: Action) => {
   const cookie = action.request.header.cookie
-  const token = parse(cookie).token
+  const token = parse(cookie).token as string
   if (!token) return false
   try {
     return !!(await verify(token, Configs.JWT_KEY))

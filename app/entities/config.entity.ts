@@ -10,6 +10,12 @@ export class Config extends BaseEntity {
   id: string
 
   @Column()
+  project_id: string
+
+  @Column()
+  project_name: string
+
+  @Column()
   name: string
 
   @Column()
@@ -19,10 +25,16 @@ export class Config extends BaseEntity {
   url: string
 
   @Column()
-  content: string | Object
+  content: Object
+
+  @Column()
+  tags: Array<string>
 
   @Column()
   histories: Array<Object>
+
+  @Column()
+  version: Date
 
   @Column()
   last_publish: Date

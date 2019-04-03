@@ -28,7 +28,11 @@ export class AccountController {
     try {
       const result = await this.accountService.signIn(userName, password)
       if (!result) return Tips.USER_NOT_FOUND
-      const token = await sign({ username: result.username }, Configs.JWT_KEY, { expiresIn: Configs.EXPIRES_IN })
+      const token = await sign(
+        { username: result.username, user_id: result.id },
+        Configs.JWT_KEY,
+        { expiresIn: Configs.EXPIRES_IN },
+      )
       request.ctx.cookies.set('token', token, { httpOnly: true })
       return 'ok'
     } catch (e) {

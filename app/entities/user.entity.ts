@@ -26,6 +26,7 @@ export class User extends BaseEntity {
   token: string
 
   @Column()
+  @IsNotEmpty({ message: 'must include password' })
   password: string
   
   @CreateDateColumn()

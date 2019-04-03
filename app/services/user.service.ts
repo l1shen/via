@@ -15,4 +15,8 @@ export class UserService {
   async findOneByName(userName: string): Promise<User> {
     return await this.repository.findOne({ username: userName })
   }
+
+  async findListByIds(ids: string[]): Promise<Array<User>> {
+    return await this.repository.findByIds(ids)
+  }
 }

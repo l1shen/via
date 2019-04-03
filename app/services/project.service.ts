@@ -17,4 +17,8 @@ export class ProjectService {
   async findOneByName(name: string): Promise<Project> {
     return await this.repository.findOne({ name })
   }
+
+  async create(project: any): Promise<Project> {
+    return await this.repository.save(project)
+  }
 }
