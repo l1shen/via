@@ -4,12 +4,11 @@ import {
 } from 'routing-controllers'
 import { Request } from 'koa'
 import { sign } from 'jsonwebtoken'
+import to from 'await-to-js'
 import { AccountService, UserService } from '../services'
 import { User } from '../entities'
 import { Tips } from '../constants'
 import { Configs } from  '../../configs/customs'
-
-
 
 @JsonController('/account')
 export class AccountController {
@@ -49,11 +48,8 @@ export class AccountController {
   ): Promise<any> {
     const user = await this.userService.findOneByName(userName)
     if (user) throw new BadRequestError(Tips.USER_NAME_DUPLICATE)
-    try {
-      const created = await this.accountService.signUp(userName, password)
-      return { user: created }
-    } catch {
-     throw new UnauthorizedError()
-    }
+    const [err, created] = await to(this.accountService.signUp(userName, password))
+    if (err) throw new BadRequestError(Tips.USER_CREATED_ERR)
+    return { user: created }
   }
 }

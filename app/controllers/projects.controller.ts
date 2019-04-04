@@ -1,8 +1,9 @@
 import {
   Body, Get, JsonController, Post, QueryParam, UseInterceptor,
-  BodyParam, Req, Authorized, Param, HttpError, CurrentUser, Action,
+  BodyParam, Req, Authorized, Param, HttpError, CurrentUser, Action, BadRequestError,
 } from 'routing-controllers'
-import {ProjectService, UserService} from '../services'
+import to from 'await-to-js'
+import { ProjectService, UserService } from '../services'
 import { Project, User } from '../entities'
 import { Tips } from '../constants'
 import { isEmpty, pick } from '../helpers'
@@ -33,15 +34,10 @@ export class ProjectsController {
 
   @Post('/')
   async create(@Body() body: Project, @CurrentUser({ required: true }) user: User): Promise<any> {
-    try {
-      const project = pick(body, ['name', 'description', 'url_base'])
-      project['users'] = [user.id]
-      const created = await this.projectService.create(project)
-      return { project: created }
-    } catch (e) {
-      console.log(e)
-      throw new HttpError(400, Tips.PROJECT_CREATED_ERROR)
-    }
+    const project = pick(body, ['name', 'description', 'url_base'])
+    project['users'] = [user.id]
+    const [createErr, created] = await to(this.projectService.create(project))
+    if (createErr) throw new BadRequestError(Tips.PROJECT_CREATED_ERROR)
+    return { project: created }
   }
-
 }
