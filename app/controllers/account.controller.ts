@@ -9,8 +9,8 @@ import { AccountService, UserService } from '../services'
 import { User } from '../entities'
 import { Tips } from '../constants'
 import { Configs } from  '../../configs/customs'
-import { UserCreated } from '../types'
-import {ParseError} from '../errors/parse.error'
+
+type UserResponse = { user: User }
 
 @JsonController('/account')
 export class AccountController {
@@ -47,7 +47,7 @@ export class AccountController {
   async signUp(
     @BodyParam('username') username: string,
     @BodyParam('password') password: string,
-  ): Promise<UserCreated> {
+  ): Promise<UserResponse> {
     const user = await this.userService.findOneByName(username)
     if (user) throw new BadRequestError(Tips.USER_NAME_DUPLICATE)
     const [err, created] = await to(this.accountService.signUp(username, password))

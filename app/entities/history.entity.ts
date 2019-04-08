@@ -10,9 +10,11 @@ export class History extends BaseEntity {
   id: string
 
   @Column()
+  @IsNotEmpty({ message: 'must include config_id' })
   config_id: string
 
   @Column()
+  @IsNotEmpty({ message: 'must include user_id' })
   user_id: string
 
   @Column()
