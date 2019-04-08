@@ -40,9 +40,11 @@ export class ConfigsController {
     @Param('project_name') projectName: string,
   ): Promise<ConfigType> {
     const config = pick(body, ['name', 'description', 'url', 'content', 'tags'])
-    config['project_name'] = projectName
-    config.content = JSON.stringify(config.content)
-    const [err, created] = await to(this.configService.create(config))
+    const configWithProjectName = Object.assign({}, config, {
+      project_name: projectName,
+      content: JSON.stringify(config.content),
+    })
+    const [err, created] = await to(this.configService.create(configWithProjectName))
     if (err instanceof ParseError) throw new BadRequestError(Tips.CONFIG_PARSE_ERROR)
     if (err) throw new BadRequestError(Tips.CONFIG_CREATED_ERROR)
     return { config: created }
