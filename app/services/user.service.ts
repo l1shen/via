@@ -12,8 +12,8 @@ export class UserService {
     this.repository = getMongoRepository(User)
   }
 
-  async findOneByName(userName: string): Promise<User | null> {
-    return await this.repository.findOne({ username: userName })
+  async findOneByName(username: string): Promise<User | null> {
+    return await this.repository.findOne({ username })
   }
 
   async findListByIds(ids: string[]): Promise<Array<User | null>> {

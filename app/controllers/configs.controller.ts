@@ -7,6 +7,8 @@ import { ConfigService, HistoryService, ProjectService } from '../services'
 import { Config, User } from '../entities'
 import { pick } from '../helpers'
 import { Tips } from '../constants'
+import { DeploymentType, Histories, ConfigType, Configs } from '../types'
+import {ParseError} from '../errors/parse.error'
 
 
 
@@ -21,35 +23,39 @@ export class ConfigsController {
   }
 
   @Get('/')
-  async index(@Param('project_name') name: string): Promise<any> {
+  async index(@Param('project_name') name: string): Promise<Configs> {
     const configs = await this.configService.findListByProjectName(name)
     return { configs }
   }
 
   @Get('/:id')
-  async show(@Param('id') id: string): Promise<any> {
+  async show(@Param('id') id: string): Promise<ConfigType> {
     const config = await this.configService.findOneById(id)
     return { config }
   }
 
   @Post('/')
-  async create(@Body() body: Config, @Param('project_name') projectName: string): Promise<any> {
+  async create(@Body() body: Config, @Param('project_name') projectName: string): Promise<ConfigType> {
     const config = pick(body, ['name', 'description', 'url', 'content', 'tags'])
     config['project_name'] = projectName
     config.content = JSON.stringify(config.content)
     const [err, created] = await to(this.configService.create(config))
+    if (err instanceof ParseError) throw new BadRequestError(Tips.CONFIG_PARSE_ERROR)
     if (err) throw new BadRequestError(Tips.CONFIG_CREATED_ERROR)
     return { config: created }
   }
 
   @Get('/:id/histories')
-  async histories(@Param('id') id: string): Promise<any> {
+  async histories(@Param('id') id: string): Promise<Histories> {
     const histories = await this.historyService.list(id)
     return { histories }
   }
 
   @Post('/:id/deployment')
-  async deployment(@Param('id') id: string, @CurrentUser({ required: true }) user: User): Promise<any> {
+  async deployment(
+    @Param('id') id: string,
+    @CurrentUser({ required: true }) user: User,
+  ): Promise<DeploymentType> {
     const config = await this.configService.findOneById(id)
     const [createErr, created] = await to(this.historyService.create({
       config_id: config.id,

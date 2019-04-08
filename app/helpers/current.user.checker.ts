@@ -6,12 +6,12 @@ import { Container } from 'typedi'
 import { Configs } from '../../configs/customs'
 import { User } from '../entities'
 
-export const CurrentUserChecker = async (action: Action) => {
+export const CurrentUserChecker = async (action: Action): Promise<User | Boolean> => {
   const userService = Container.get(UserService)
-  const currentUser = action.context.currentUser
-  if (!currentUser) return false
+  const _user = action.context._user
+  if (!_user) return false
   try {
-    return await userService.findOneByName(currentUser.username)
+    return await userService.findOneByName(_user.username)
   } catch (e) {
     console.log(e)
     return false

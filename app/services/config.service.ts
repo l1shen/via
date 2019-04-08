@@ -1,6 +1,7 @@
 import { getMongoRepository, MongoRepository } from 'typeorm'
 import { Service } from 'typedi'
 import { Config } from '../entities'
+import {ParseError} from '../errors/parse.error'
 
 @Service()
 export class ConfigService {
@@ -26,7 +27,7 @@ export class ConfigService {
     try {
       JSON.parse(config.content)
     } catch (e) {
-      throw e
+      throw new ParseError(e)
     }
     return await this.repository.save(config)
   }

@@ -5,5 +5,6 @@ export enum Tips {
   PROJECT_CREATED_ERROR = 'Project 创建失败',
   PROJECT_NOT_FOUND = 'Project 没有找到',
   CONFIG_CREATED_ERROR = 'Config 创建失败',
+  CONFIG_PARSE_ERROR = 'Config 内容不是合法的 JSON 格式',
   DEPLOYMENT_ERROR = '发布失败',
 }

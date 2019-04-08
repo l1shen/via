@@ -9,6 +9,8 @@ import { AccountService, UserService } from '../services'
 import { User } from '../entities'
 import { Tips } from '../constants'
 import { Configs } from  '../../configs/customs'
+import { UserCreated } from '../types'
+import {ParseError} from '../errors/parse.error'
 
 @JsonController('/account')
 export class AccountController {
@@ -24,7 +26,7 @@ export class AccountController {
     @BodyParam('username', { required: true }) username: string,
     @BodyParam('password', { required: true }) password: string,
     @Req() request: Request,
-  ): Promise<any> {
+  ): Promise<string> {
     const result = await this.accountService.signIn(username, password)
     if (!result) throw new BadRequestError(Tips.USER_NOT_FOUND)
     try {
@@ -43,12 +45,12 @@ export class AccountController {
 
   @Post('/sign_up')
   async signUp(
-    @BodyParam('username') userName: string,
+    @BodyParam('username') username: string,
     @BodyParam('password') password: string,
-  ): Promise<any> {
-    const user = await this.userService.findOneByName(userName)
+  ): Promise<UserCreated> {
+    const user = await this.userService.findOneByName(username)
     if (user) throw new BadRequestError(Tips.USER_NAME_DUPLICATE)
-    const [err, created] = await to(this.accountService.signUp(userName, password))
+    const [err, created] = await to(this.accountService.signUp(username, password))
     if (err) throw new BadRequestError(Tips.USER_CREATED_ERR)
     return { user: created }
   }

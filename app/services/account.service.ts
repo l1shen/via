@@ -13,16 +13,16 @@ export class AccountService {
     this.repository = getMongoRepository(User)
   }
   
-  async signIn(userName: string, password: string): Promise<any> {
-    const user = await this.repository.findOne({ username: userName })
-    if (!user) return false
+  async signIn(username: string, password: string): Promise<User | null> {
+    const user = await this.repository.findOne({ username })
+    if (!user) return null
     const isSignIn = await compare(password, user.password)
-    return isSignIn ? user : false
+    return isSignIn ? user : null
   }
 
-  async signUp(userName: string, password: string): Promise<User> {
+  async signUp(username: string, password: string): Promise<User> {
     const salt = await genSalt(10)
     const hashedPassword = await hash(password, salt)
-    return await this.repository.save({ username: userName, password: hashedPassword })
+    return await this.repository.save({ username, password: hashedPassword })
   }
 }
