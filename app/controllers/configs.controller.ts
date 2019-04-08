@@ -35,7 +35,10 @@ export class ConfigsController {
   }
 
   @Post('/')
-  async create(@Body() body: Config, @Param('project_name') projectName: string): Promise<ConfigType> {
+  async create(
+    @Body() body: Config,
+    @Param('project_name') projectName: string,
+  ): Promise<ConfigType> {
     const config = pick(body, ['name', 'description', 'url', 'content', 'tags'])
     config['project_name'] = projectName
     config.content = JSON.stringify(config.content)
