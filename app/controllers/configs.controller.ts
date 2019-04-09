@@ -14,7 +14,7 @@ import { Context } from 'koa'
 type ConfigResponse = { config: Config }
 type ConfigsResponse = { configs: Array<Config> }
 type HistoriesResponse = { histories: Array<History> }
-type DeploymentResponse = { config: Config, history: History }
+type DeploymentResponse =  { history: History } & ConfigResponse
 
 @Authorized()
 @JsonController('/projects/:project_name/configs')
