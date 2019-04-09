@@ -9,6 +9,8 @@
     "preserveConstEnums": true,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
+	"esModuleInterop": true,
+	"moduleResolution": "node",
     "typeRoots": [
       "node_modules/@types",
       "typings"

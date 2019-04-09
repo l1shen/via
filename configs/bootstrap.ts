@@ -1,5 +1,5 @@
 import { join } from 'path'
-import * as dotenv from 'dotenv'
+import dotenv from 'dotenv'
 
 
 // "bootstrap" will trigger before the app lift.
