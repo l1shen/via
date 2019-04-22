@@ -6,10 +6,15 @@ import { Request } from 'koa'
 import { User } from 'entities'
 import { sign } from 'jsonwebtoken'
 import { Tips } from 'app/constants'
-import { Configs } from  'configs/customs'
+import { authConfigs } from  'configs/customs'
 import { AccountService, UserService } from 'services'
 
 type UserResponse = { user: User }
+const signComposer = async (payload: string | Buffer | object): Promise<string> => await sign(
+  payload,
+  authConfigs.keyOfJWT,
+  { expiresIn: authConfigs.expiresIn },
+)
 
 @JsonController('/account')
 export class AccountController {
@@ -28,18 +33,14 @@ export class AccountController {
   ): Promise<string> {
     const result = await this.accountService.signIn(username, password)
     if (!result) throw new BadRequestError(Tips.USER_NOT_FOUND)
+    
     try {
-      const token = await sign(
-        { username: result.username, user_id: result.id },
-        Configs.JWT_KEY,
-        { expiresIn: Configs.EXPIRES_IN },
-      )
-      request.ctx.cookies.set('token', token, { httpOnly: true })
-      return 'ok'
+      const token = await signComposer({ username: result.username, user_id: result.id })
+      request.ctx.cookies.set('token', token, { httpOnly: authConfigs.httpOnly })
     } catch (e) {
-      console.log(e)
-      throw new UnauthorizedError()
+      throw new UnauthorizedError(`${e}`)
     }
+    return 'ok'
   }
 
   @Post('/sign_up')
@@ -49,8 +50,10 @@ export class AccountController {
   ): Promise<UserResponse> {
     const user = await this.userService.findOneByName(username)
     if (user) throw new BadRequestError(Tips.USER_NAME_DUPLICATE)
+    
     const [err, created] = await to(this.accountService.signUp(username, password))
     if (err) throw new BadRequestError(Tips.USER_CREATED_ERR)
+    
     return { user: created }
   }
 }

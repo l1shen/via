@@ -30,6 +30,7 @@ export class ProjectsController {
     const project = await this.projectService.findOneByName(name)
     if (isEmpty(project)) throw new NotFoundError(Tips.PROJECT_NOT_FOUND)
     if (isEmpty(project.users)) return { project }
+    
     const users = await this.userService.findListByIds(project.users)
     const projectWithUsers = Object.assign({}, project, { users })
     return { project: projectWithUsers }
@@ -44,6 +45,7 @@ export class ProjectsController {
     const projectWithUsers = Object.assign({}, project, { users: [user.id] })
     const [createErr, created] = await to(this.projectService.create(projectWithUsers))
     if (createErr) throw new BadRequestError(Tips.PROJECT_CREATED_ERROR)
+    
     return { project: created }
   }
 }

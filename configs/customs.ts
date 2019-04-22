@@ -26,8 +26,9 @@ export const routingConfigs: RoutingControllersOptions = {
 
 export const useMongoDB = true
 
-export enum Configs {
-  JWT_KEY = 'via-jwt-config-key',
-  EXPIRES_IN = '7 days',
+export const authConfigs = {
+  keyOfJWT: 'via-jwt-config-key',
+  expiresIn: '7 days',
+  httpOnly: true,
 }
 
