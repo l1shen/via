@@ -1,14 +1,13 @@
 import {
-  Body, Get, JsonController, Post, QueryParam, UseInterceptor,
-  BodyParam, UnauthorizedError, Req, BadRequestError,
+  JsonController, Post, BodyParam, UnauthorizedError, Req, BadRequestError,
 } from 'routing-controllers'
-import { Request } from 'koa'
-import { sign } from 'jsonwebtoken'
 import to from 'await-to-js'
-import { AccountService, UserService } from '../services'
-import { User } from '../entities'
-import { Tips } from '../constants'
-import { Configs } from  '../../configs/customs'
+import { Request } from 'koa'
+import { User } from 'entities'
+import { sign } from 'jsonwebtoken'
+import { Tips } from 'app/constants'
+import { Configs } from  'configs/customs'
+import { AccountService, UserService } from 'services'
 
 type UserResponse = { user: User }
 

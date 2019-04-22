@@ -1,7 +1,7 @@
 import { Action } from 'routing-controllers'
 import { parse } from 'querystring'
 import { verify } from 'jsonwebtoken'
-import { Configs } from '../../configs/customs'
+import { Configs } from 'configs/customs'
 
 export const AuthorizationChecker = async (action: Action): Promise<boolean> => {
   const cookie = action.request.header.cookie

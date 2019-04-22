@@ -1,6 +1,6 @@
 import { getMongoRepository, MongoRepository } from 'typeorm'
 import { Service } from 'typedi'
-import { Config } from '../entities'
+import { Config } from 'entities'
 
 @Service()
 export class ConfigService {

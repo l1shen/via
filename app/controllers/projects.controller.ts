@@ -3,10 +3,10 @@ import {
   BodyParam, Req, Authorized, Param, CurrentUser, Action, BadRequestError, NotFoundError,
 } from 'routing-controllers'
 import to from 'await-to-js'
-import { ProjectService, UserService } from '../services'
-import { Project, User } from '../entities'
-import { Tips } from '../constants'
-import { isEmpty, pick } from '../helpers'
+import { Tips } from 'app/constants'
+import { isEmpty, pick } from 'app/helpers'
+import { Project, User } from 'entities'
+import { ProjectService, UserService } from 'services'
 
 type ProjectsResponse = { projects: Array<Project> }
 type ProjectResponse = { project: Project }

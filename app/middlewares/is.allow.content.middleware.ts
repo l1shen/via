@@ -1,5 +1,5 @@
 import { BadRequestError, KoaMiddlewareInterface } from 'routing-controllers'
-import { Tips } from '../constants'
+import { Tips } from 'app/constants'
 
 export class IsAllowContentMiddleware implements  KoaMiddlewareInterface {
   use(context: any, next: (err?: any) => Promise<any>): Promise<any> {

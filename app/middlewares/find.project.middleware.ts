@@ -1,7 +1,7 @@
 import { KoaMiddlewareInterface, NotFoundError } from 'routing-controllers'
-import { ProjectService } from '../services'
+import { ProjectService } from 'services'
 import { Container } from 'typedi'
-import { Tips } from '../constants'
+import { Tips } from 'app/constants'
 
 export class FindProjectMiddleware implements KoaMiddlewareInterface {
   async use(context: any, next: (err?: any) => Promise<any>): Promise<any> {

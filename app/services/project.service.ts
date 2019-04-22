@@ -1,6 +1,6 @@
 import { getMongoRepository, MongoRepository } from 'typeorm'
 import { Service } from 'typedi'
-import { Project } from '../entities'
+import { Project } from 'entities'
 
 @Service()
 export class ProjectService {
