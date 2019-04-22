@@ -1,8 +1,6 @@
-import { MinLength, IsNotEmpty } from 'class-validator'
 import {
-  Entity, BaseEntity, ObjectIdColumn, CreateDateColumn, UpdateDateColumn, Column, Index,
+  Entity, BaseEntity, ObjectIdColumn, CreateDateColumn, UpdateDateColumn, Column,
 } from 'typeorm'
-import { Binary } from 'mongodb'
 
 @Entity('configs')
 export class Config extends BaseEntity {

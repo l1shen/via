@@ -1,4 +1,3 @@
-import { MinLength, IsNotEmpty } from 'class-validator'
 import {
   Entity, BaseEntity, ObjectIdColumn, CreateDateColumn, UpdateDateColumn, Column, Index,
 } from 'typeorm'

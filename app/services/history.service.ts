@@ -1,6 +1,6 @@
 import { getMongoRepository, MongoRepository } from 'typeorm'
 import { Service } from 'typedi'
-import { History } from '../entities'
+import { History } from 'entities'
 
 @Service()
 export class HistoryService {

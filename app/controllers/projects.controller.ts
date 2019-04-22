@@ -1,12 +1,12 @@
 import {
-  Body, Get, JsonController, Post, QueryParam, UseInterceptor,
-  BodyParam, Req, Authorized, Param, CurrentUser, Action, BadRequestError, NotFoundError,
+  Body, Get, JsonController, Post,
+  Authorized, Param, CurrentUser, BadRequestError, NotFoundError,
 } from 'routing-controllers'
 import to from 'await-to-js'
-import { ProjectService, UserService } from '../services'
-import { Project, User } from '../entities'
-import { Tips } from '../constants'
-import { isEmpty, pick } from '../helpers'
+import { Tips } from 'app/constants'
+import { isEmpty, pick } from 'app/helpers'
+import { Project, User } from 'entities'
+import { ProjectService, UserService } from 'services'
 
 type ProjectsResponse = { projects: Array<Project> }
 type ProjectResponse = { project: Project }
@@ -30,6 +30,7 @@ export class ProjectsController {
     const project = await this.projectService.findOneByName(name)
     if (isEmpty(project)) throw new NotFoundError(Tips.PROJECT_NOT_FOUND)
     if (isEmpty(project.users)) return { project }
+    
     const users = await this.userService.findListByIds(project.users)
     const projectWithUsers = Object.assign({}, project, { users })
     return { project: projectWithUsers }
@@ -44,6 +45,7 @@ export class ProjectsController {
     const projectWithUsers = Object.assign({}, project, { users: [user.id] })
     const [createErr, created] = await to(this.projectService.create(projectWithUsers))
     if (createErr) throw new BadRequestError(Tips.PROJECT_CREATED_ERROR)
+    
     return { project: created }
   }
 }

@@ -3,12 +3,12 @@ import {
   BodyParam, Req, Authorized, Param, HttpError, CurrentUser, BadRequestError, UseBefore, Ctx,
 } from 'routing-controllers'
 import to from 'await-to-js'
-import { ConfigService, HistoryService, ProjectService } from '../services'
-import { Config, User, History } from '../entities'
-import { pick } from '../helpers'
-import { Tips } from '../constants'
-import { IsAllowContentMiddleware, FindProjectMiddleware } from '../middlewares'
 import { Context } from 'koa'
+import { pick } from 'app/helpers'
+import { Tips } from 'app/constants'
+import { Config, User, History } from 'entities'
+import { ConfigService, HistoryService, ProjectService } from 'services'
+import { IsAllowContentMiddleware, FindProjectMiddleware } from 'app/middlewares'
 
 
 type ConfigResponse = { config: Config }
