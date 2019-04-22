@@ -1,6 +1,6 @@
 import {
-  Body, Get, JsonController, Post, QueryParam, UseInterceptor,
-  BodyParam, Req, Authorized, Param, CurrentUser, Action, BadRequestError, NotFoundError,
+  Body, Get, JsonController, Post,
+  Authorized, Param, CurrentUser, BadRequestError, NotFoundError,
 } from 'routing-controllers'
 import to from 'await-to-js'
 import { Tips } from 'app/constants'
