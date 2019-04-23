@@ -1,6 +1,5 @@
 import { getMongoRepository, MongoRepository } from 'typeorm'
 import { Service } from 'typedi'
-import { compare, genSalt, hash } from 'bcrypt'
 import { User } from 'entities'
 
 @Service()

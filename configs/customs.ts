@@ -1,5 +1,6 @@
 import { RoutingControllersOptions } from 'routing-controllers'
 import * as controllers from 'controllers'
+import * as middlewares from './routing.middlewares'
 import * as interceptors from './interceptors'
 import { AuthorizationChecker, CurrentUserChecker } from 'app/helpers'
 const objectToArray = (dict: object): Array<any> =>
@@ -9,7 +10,8 @@ const objectToArray = (dict: object): Array<any> =>
 export const routingConfigs: RoutingControllersOptions = {
   controllers: objectToArray(controllers),
   
-  // global interceptors
+  middlewares: objectToArray(middlewares),
+  
   interceptors: objectToArray(interceptors),
   
   // router prefix
@@ -21,6 +23,7 @@ export const routingConfigs: RoutingControllersOptions = {
   validation: true,
 
   authorizationChecker: AuthorizationChecker,
+  
   currentUserChecker: CurrentUserChecker,
 }
 
